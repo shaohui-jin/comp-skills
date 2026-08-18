@@ -1,0 +1,108 @@
+# 发版 Cursor/VS Code 扩展 comp-insight：
+# 改 packages/extension/package.json 的 version 并推到 master/main
+# → 远程还没有 v{version} 这个 tag 就构建、发布 Open VSX、最后打 tag
+#
+# 判据是「这个版本发过没有」，不是「version 变化了没有」。
+# tag 在发布成功之后才打，代表「已发布」。
+#
+# 需 Secret：OVSX_PAT（open-vsx.org Access Token）
+# 文档：docs/design.md
+
+name: Release extension on version bump
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Decide whether to release
+        id: gate
+        run: |
+          PKG="packages/extension/package.json"
+          VERSION="$(jq -r .version "$PKG")"
+          if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+            echo "::error::无法读取 $PKG 的 version"
+            exit 1
+          fi
+          TAG="v${VERSION}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            echo "${TAG} 已发布过，跳过。要发新版请提高 ${PKG} 的 version。"
+          else
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            echo "${TAG} 尚未发布，开始构建。"
+          fi
+
+      - name: Setup pnpm
+        if: steps.gate.outputs.should_release == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.13.1
+
+      - name: Setup Node.js
+        if: steps.gate.outputs.should_release == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        if: steps.gate.outputs.should_release == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Build core + extension
+        if: steps.gate.outputs.should_release == 'true'
+        run: |
+          pnpm --filter @shaohui_jin/comp-core build
+          pnpm --filter comp-insight build
+
+      - name: Package VSIX
+        if: steps.gate.outputs.should_release == 'true'
+        run: pnpm package:vsix
+
+      - name: Upload VSIX artifact
+        if: steps.gate.outputs.should_release == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: comp-insight-vsix
+          path: comp-insight.vsix
+          if-no-files-found: error
+
+      - name: Publish to Open VSX
+        if: steps.gate.outputs.should_release == 'true'
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+          TAG: ${{ steps.gate.outputs.tag }}
+        run: |
+          if [ -z "${OVSX_PAT}" ]; then
+            echo "::error::未配置 GitHub Secret OVSX_PAT。见 docs/design.md"
+            exit 1
+          fi
+          npx --yes ovsx@0.10.5 publish comp-insight.vsix -p "${OVSX_PAT}"
+          echo "已发布 ${TAG} → Open VSX（jinshaohui.comp-insight）"
+
+      # 发布成功才打 tag
+      - name: Create and push tag
+        if: steps.gate.outputs.should_release == 'true'
+        env:
+          TAG: ${{ steps.gate.outputs.tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "${TAG}" -m "Release ${TAG}"
+          git push origin "${TAG}"
+          echo "已推送 tag ${TAG}"
