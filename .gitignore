@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+out/
+*.vsix
+*.log
+
+# editor
+.idea/
+.vscode/
+*.swp
+
+# os
+.DS_Store
+Thumbs.db
+
+# pnpm
+pnpm-debug.log*
+
+# ts build info
+*.tsbuildinfo

@@ -1,0 +1,55 @@
+{
+  "name": "@shaohui_jin/comp-core",
+  "version": "0.1.0",
+  "description": "Vue component dependency insight engine: dependency graph, cycles, dead components, fan-in/out, layer rules",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "comp-vue-insight": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tree": {
+      "types": "./dist/buildTree.d.ts",
+      "import": "./dist/buildTree.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "cli": "node dist/cli.js",
+    "prepublishOnly": "pnpm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "vue",
+    "component",
+    "dependency",
+    "cycle",
+    "scaffold"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.26.0",
+    "@vue/compiler-sfc": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}

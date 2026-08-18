@@ -1,0 +1,20 @@
+{
+  "name": "comp-skill",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vue component dependency insight monorepo: core engine + MCP server + Cursor extension",
+  "scripts": {
+    "build:core": "pnpm --filter @shaohui_jin/comp-core build",
+    "build:webview": "pnpm --filter @comp-insight/webview build",
+    "build:mcp": "pnpm --filter @shaohui_jin/comp-core build && pnpm --filter @shaohui_jin/comp-mcp-server build",
+    "build:ext": "pnpm --filter @shaohui_jin/comp-core build && pnpm --filter @comp-insight/webview build && pnpm --filter comp-insight build:ext",
+    "package:vsix": "pnpm --filter @shaohui_jin/comp-core build && pnpm --filter @comp-insight/webview build && pnpm --filter comp-insight package:vsix",
+    "publish:mcp": "pnpm --filter @shaohui_jin/comp-core build && pnpm --filter @shaohui_jin/comp-mcp-server publish",
+    "analyze": "node packages/core/dist/cli.js",
+    "test": "pnpm -r run test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.13.1"
+}

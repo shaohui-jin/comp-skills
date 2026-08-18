@@ -1,0 +1,15 @@
+# 打进 vsix：package.json / README / LICENSE / dist/** / skills/**
+# webview 源文件与 node_modules 都不打进（vsix 只靠 dist/webview 构建产物）
+.vscode/**
+src/**
+scripts/**
+webview/**
+node_modules/**
+**/*.ts
+**/*.map
+**/*.vsix
+**/*.log
+tsconfig.json
+.gitignore
+.DS_Store
+Thumbs.db

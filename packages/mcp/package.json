@@ -1,0 +1,45 @@
+{
+  "name": "@shaohui_jin/comp-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server exposing Vue component dependency analysis: graph, cycles, dead components, fan-in/out, layer rules; includes an HTTP UI page (same build as cursor extension)",
+  "type": "module",
+  "bin": {
+    "comp-mcp-server": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "ui",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/index.js",
+    "prepublishOnly": "pnpm run check && pnpm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "vue",
+    "component",
+    "dependency-graph",
+    "cycle-detection"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "@shaohui_jin/comp-core": "workspace:*",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "typescript": "^5.8.3"
+  }
+}

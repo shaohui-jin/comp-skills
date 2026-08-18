@@ -1,0 +1,77 @@
+{
+  "name": "comp-insight",
+  "displayName": "Comp Insight",
+  "description": "Vue 组件依赖分析：依赖图、循环依赖、无用组件、扇入扇出、分层检查。分析与 Cursor/MCP 同款 UI。",
+  "version": "0.1.0",
+  "publisher": "jinshaohui",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shaohui-jin/comp-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shaohui-jin/comp-skill/issues"
+  },
+  "homepage": "https://github.com/shaohui-jin/comp-skill#readme",
+  "keywords": [
+    "vue",
+    "component",
+    "dependency",
+    "cycle-detection",
+    "cursor"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Analysis", "Other"],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:compInsight.openWeb",
+    "onCommand:compInsight.syncSkill"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "compInsight.openWeb",
+        "title": "Comp Insight: 打开组件分析面板",
+        "category": "Comp Insight"
+      },
+      {
+        "command": "compInsight.syncSkill",
+        "title": "Comp Insight: 同步 Agent Skill 到全局",
+        "category": "Comp Insight"
+      }
+    ],
+    "configuration": {
+      "title": "Comp Insight",
+      "properties": {
+        "compInsight.defaultSrcDir": {
+          "type": "string",
+          "default": "src",
+          "description": "源码目录，相对项目根。"
+        }
+      }
+    },
+    "chatSkills": [
+      {
+        "path": "./skills/comp-vue-insight/SKILL.md"
+      }
+    ]
+  },
+  "scripts": {
+    "build:ext": "node scripts/bundle.mjs",
+    "bundle:webview": "pnpm --filter @comp-insight/webview build",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "build": "pnpm run bundle:webview && pnpm run build:ext",
+    "package:vsix": "pnpm run build && vsce package --no-dependencies --out ../../comp-insight.vsix"
+  },
+  "devDependencies": {
+    "@shaohui_jin/comp-core": "workspace:*",
+    "@types/node": "^22.15.21",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.3.2",
+    "esbuild": "^0.25.5",
+    "typescript": "^5.8.3"
+  }
+}
