@@ -2,7 +2,7 @@
   "name": "comp-insight",
   "displayName": "Comp Insight",
   "description": "Vue 组件依赖分析：依赖图、循环依赖、无用组件、扇入扇出、分层检查。分析与 Cursor/MCP 同款 UI。",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "jinshaohui",
   "license": "MIT",
   "repository": {

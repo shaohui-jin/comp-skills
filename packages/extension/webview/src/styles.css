@@ -41,9 +41,13 @@ body {
 }
 
 #app {
-  padding: 16px;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 0;
+  max-width: none;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 h1, h2, h3 {
