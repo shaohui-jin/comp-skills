@@ -73,7 +73,7 @@ jobs:
 
       - name: Build MCP
         if: steps.gate.outputs.should_release == 'true'
-        run: pnpm --filter @shaohui_jin/comp-mcp-server run check && pnpm --filter @shaohui_jin/comp-mcp-server run build
+        run: pnpm --filter @shaohui_jin/comp-insight-mcp-server run check && pnpm --filter @shaohui_jin/comp-insight-mcp-server run build
 
       - name: Publish to npm
         if: steps.gate.outputs.should_release == 'true'
@@ -86,7 +86,7 @@ jobs:
             exit 1
           fi
           npm publish --access public
-          echo "已发布 @shaohui_jin/comp-mcp-server@${{ steps.gate.outputs.version }}"
+          echo "已发布 @shaohui_jin/comp-insight-mcp-server@${{ steps.gate.outputs.version }}"
 
       - name: Create and push tag
         if: steps.gate.outputs.should_release == 'true'

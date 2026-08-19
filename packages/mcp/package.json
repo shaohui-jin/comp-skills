@@ -1,6 +1,6 @@
 {
-  "name": "@shaohui_jin/comp-mcp-server",
-  "version": "0.1.0",
+  "name": "@shaohui_jin/comp-insight-mcp-server",
+  "version": "0.1.1",
   "description": "MCP server exposing Vue component dependency analysis: graph, cycles, dead components, fan-in/out, layer rules; includes an HTTP UI page (same build as cursor extension)",
   "type": "module",
   "bin": {

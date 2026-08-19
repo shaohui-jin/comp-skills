@@ -34,7 +34,7 @@ component-skills/
 │   │   ├── skills/comp-vue-insight/SKILL.md
 │   │   ├── webview/             # vue + vite 构建的 UI
 │   │   └── package.json
-│   └── mcp/                     # @shaohui_jin/comp-mcp-server —— npm 包
+│   └── mcp/                     # @shaohui_jin/comp-insight-mcp-server —— npm 包
 │       └── src/index.ts         # MCP server + 内嵌 HTTP 页面
 ├── .github/workflows/           # release-on-version（扩展）+ release-mcp-server（npm）
 ├── docs/design.md
@@ -66,7 +66,7 @@ extension 启动时把内置 `skills/comp-vue-insight/SKILL.md` 同步到
 ### 发布
 
 - 扩展 → Open VSX，tag `v{version}`
-- MCP server → npm，package `@shaohui_jin/comp-mcp-server`，tag `mcp-server-v{version}`
+- MCP server → npm，package `@shaohui_jin/comp-insight-mcp-server`，tag `mcp-server-v{version}`
 - 判据「这个版本发布过没」，tag 在发布成功后打
 
 ## 4. 分层约定（默认）
@@ -94,11 +94,11 @@ config 允许自定义 `layerByDir`。越层报告反向引用。
 |----|------|-----------|-----|
 | core | `@shaohui_jin/comp-core` | - | public |
 | extension | `comp-insight` | `jinshaohui` | 非 npm（vsix/ovsx） |
-| mcp | `@shaohui_jin/comp-mcp-server` | - | npm，public |
+| mcp | `@shaohui_jin/comp-insight-mcp-server` | - | npm，public |
 
 MCP npm 接入参考：`git-skill` 的 `@shaohui_jin/git-insight-mcp-server`。
 
 ## 7. 参考来源
 
 - git-skill（D:\_myproject\git-skill）：mono-repo、skill 全局同步、MCP fallback 页面、GitHub Actions。
-- package 命名参考 `@shaohui_jin/comp-mcp-server`。
+- package 命名参考 `@shaohui_jin/comp-insight-mcp-server`（对齐 git-skill 的 `git-insight-mcp-server`）。旧名 `@shaohui_jin/comp-mcp-server` 若已发布则 deprecate，见 docs/deprecate-old-mcp.md。

@@ -19,7 +19,7 @@ Vue 组件依赖分析系统：识别组件引用状态、依赖关系、循环�
 |----|------|
 | `packages/core` | `@shaohui_jin/comp-core` 纯分析引擎 + CLI |
 | `packages/extension` | `comp-insight` Cursor/VS Code 扩展（含 webview + skill） |
-| `packages/mcp` | `@shaohui_jin/comp-mcp-server` MCP server（含 HTTP UI 页） |
+| `packages/mcp` | `@shaohui_jin/comp-insight-mcp-server` MCP server（含 HTTP UI 页） |
 
 ## 快速开始
 
@@ -38,7 +38,7 @@ pnpm analyze <project-root> [--src src] [--entry a.js,b.js] [--out report.md] [-
 ```bash
 pnpm --filter @shaohui_jin/comp-core build
 pnpm --filter @comp-insight/webview build
-pnpm --filter @shaohui_jin/comp-mcp-server build
+pnpm --filter @shaohui_jin/comp-insight-mcp-server build
 
 # 以 stdio 模式作为 MCP server 运行
 node packages/mcp/dist/index.js
@@ -74,6 +74,6 @@ webview（vue+vite）产物被**同一份**在两种环境加载：
 
 - **扩展** → `.github/workflows/release-on-version.yml`（Open VSX，Secret `OVSX_PAT`）
 - **MCP server** → `.github/workflows/release-mcp-server.yml`（npm，Secret `NPM_TOKEN`）
-- 包名：`@shaohui_jin/comp-mcp-server`（npm，access public）
+- 包名：`@shaohui_jin/comp-insight-mcp-server`（npm，access public）
 
 详见 [docs/design.md](docs/design.md)。
